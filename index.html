@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calcolo tasse forfettario 2026: quanto accantonare</title>
+<meta name="description" content="Calcolatore gratuito per il regime forfettario 2026: imposta sostitutiva 5% o 15%, contributi INPS, acconti di giugno e novembre e percentuale da accantonare su ogni incasso.">
+<style>
+/* Layout: colonna unica, form a sinistra e risultati a destra su schermi larghi */
+:root{--bg:#F3F6F5;--fg:#1D2B27;--muted:#56665F;--accent:#1F6F5C;--accent-fg:#FFFFFF;--panel:#FFFFFF;--line:#D3DDD9;--warn:#B5452F;--hl:#F2C14E}
+@media (prefers-color-scheme: dark){:root{--bg:#121A18;--fg:#E7EFEC;--muted:#9FB2AB;--accent:#5CC2A5;--accent-fg:#0E1714;--panel:#1A2522;--line:#2C3B37;--warn:#F08A72;--hl:#F2C14E;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:980px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px));display:grid;gap:24px}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.15;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:0;max-width:65ch}
+.wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px;min-width:0}
+label{display:grid;gap:4px;font-weight:600;font-size:.95rem}
+label small{font-weight:400;color:var(--muted)}
+input,select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.row:last-child{border-bottom:0}
+.row b{white-space:nowrap}
+.big{font-size:2.6rem;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.warn{color:var(--warn);font-weight:600}
+.cta{background:var(--accent);color:var(--accent-fg);border-radius:12px;padding:20px;display:grid;gap:10px}
+.cta a{justify-self:start;background:var(--hl);color:#1F3D35;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:8px}
+.cta a:focus{outline:3px solid var(--fg)}
+.cta p{margin:0}
+.note{font-size:.85rem;color:var(--muted);max-width:75ch}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<nav style="font-size:.95rem"><a href="index.html" style="color:var(--accent);margin-right:16px">Calcolatore forfettario</a><a href="servizi.html" style="color:var(--accent)">Servizi: traduzioni, menu, siti</a></nav>
+<header style="display:grid;gap:8px">
+<h1>Quanto devo accantonare nel forfettario 2026?</h1>
+<p class="lead">Inserisci quanto prevedi di incassare quest'anno. Il calcolatore stima imposta sostitutiva, contributi INPS e la percentuale da mettere da parte su ogni fattura. Gratis, senza registrazione.</p>
+</header>
+
+<div class="wrap">
+<form class="card" id="f" autocomplete="off">
+<label for="inc">Incassi previsti nell'anno (€)
+<input id="inc" type="number" min="0" step="100" value="30000" inputmode="decimal"></label>
+<label for="coef">Coefficiente di redditività <small>Dipende dal codice ATECO</small>
+<select id="coef">
+<option value="0.40">40% (commercio al dettaglio e all'ingrosso)</option>
+<option value="0.54">54% (commercio ambulante non alimentare)</option>
+<option value="0.62">62% (altre attività economiche, commercio)</option>
+<option value="0.67">67% (altre attività economiche)</option>
+<option value="0.78" selected>78% (professioni, attività tecniche e scientifiche)</option>
+<option value="0.86">86% (costruzioni e attività immobiliari)</option>
+</select></label>
+<label for="ali">Aliquota imposta sostitutiva
+<select id="ali"><option value="0.15">15% (ordinaria)</option><option value="0.05">5% (primi 5 anni, con requisiti)</option></select></label>
+<label for="gest">Gestione INPS
+<select id="gest"><option value="gs">Gestione Separata (26,07%)</option><option value="art">Artigiani (INPS 2026)</option><option value="com">Commercianti (INPS 2026)</option></select></label>
+<div id="acbox" hidden style="display:grid;gap:14px">
+<label for="fissi">Contributi fissi annui sul minimale (€) <small>Circolare INPS n. 14/2026, già compilato</small>
+<input id="fissi" type="number" min="0" step="1" value="4521.36"></label>
+<label for="minimale">Reddito minimale annuo (€)
+<input id="minimale" type="number" min="0" step="1" value="18808"></label>
+<label for="aliac">Aliquota sul reddito eccedente (%)
+<input id="aliac" type="number" min="0" max="40" step="0.01" value="24"></label>
+<label for="rid">Riduzione 35% richiesta
+<select id="rid"><option value="1">No</option><option value="0.65">Sì</option></select></label>
+</div>
+<label for="ded">Contributi già versati quest'anno (€) <small>Deducibili dal reddito. Il primo anno di solito è 0</small>
+<input id="ded" type="number" min="0" step="10" value="0"></label>
+</form>
+
+<section class="card" aria-live="polite">
+<div>Da accantonare su ogni incasso</div>
+<div class="big" id="pct">–</div>
+<div class="row"><span>Reddito imponibile</span><b id="r1">–</b></div>
+<div class="row"><span>Contributi INPS stimati</span><b id="r2">–</b></div>
+<div class="row"><span>Imposta sostitutiva stimata</span><b id="r3">–</b></div>
+<div class="row"><span>Totale da accantonare</span><b id="r4">–</b></div>
+<div class="row"><span>Netto stimato</span><b id="r5">–</b></div>
+<div class="row"><span>Acconti imposta anno prossimo (giugno + novembre)</span><b id="r6">–</b></div>
+<div class="row"><span>Margine prima della soglia di 85.000 €</span><b id="r7">–</b></div>
+<p id="soglia" class="warn" hidden></p>
+</section>
+</div>
+
+<aside class="cta">
+<p><strong>Vuoi tenerlo aggiornato fattura per fattura?</strong></p>
+<p>Il Kit Forfettario 2026 è un foglio Excel con registro incassi, accantonamento mese per mese, saldo e acconti, bollo automatico e scadenzario. Funziona con Excel, LibreOffice e Google Fogli.</p>
+<a href="https://payhip.com/b/Wa1UB" rel="noopener">Scarica il kit a 9 €</a>
+</aside>
+
+<p class="note">Stima indicativa basata sulle regole 2026 del regime forfettario: reddito = incassi × coefficiente; imposta = (reddito − contributi versati) × aliquota; Gestione Separata 26,07%; acconti dovuti se l'imposta supera 51,65 €. Artigiani e commercianti: valori 2026 della circolare INPS n. 14/2026 (minimale 18.808 €, +1% oltre 56.224 €). Non è consulenza fiscale: verifica con il tuo commercialista.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const eur=v=>v.toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+const num=id=>Math.max(0,parseFloat($(id).value)||0);
+function calcola(){
+  const inc=num('inc'),coef=+$('coef').value,ali=+$('ali').value,gs=$('gest').value==='gs';
+  $('acbox').hidden=gs;
+  const reddito=inc*coef;
+  const contr=gs?reddito*0.2607:(num('fissi')+Math.max(0,reddito-num('minimale'))*num('aliac')/100+Math.max(0,reddito-56224)*0.01)*(+$('rid').value);
+  const imposta=Math.max(0,reddito-num('ded'))*ali;
+  const tot=contr+imposta;
+  $('pct').textContent=inc?(tot/inc*100).toLocaleString('it-IT',{maximumFractionDigits:1})+'%':'–';
+  $('r1').textContent=eur(reddito);$('r2').textContent=eur(contr);$('r3').textContent=eur(imposta);
+  $('r4').textContent=eur(tot);$('r5').textContent=eur(inc-tot);
+  $('r6').textContent=eur(imposta>51.65?imposta:0);$('r7').textContent=eur(85000-inc);
+  const s=$('soglia');
+  s.hidden=inc<=68000;
+  s.textContent=inc>100000?'Oltre 100.000 €: si esce subito dal regime forfettario.':inc>85000?'Oltre 85.000 €: si esce dal regime dall\'anno successivo.':'Sei oltre l\'80% della soglia di 85.000 €.';
+}
+$('gest').addEventListener('change',()=>{const g=$('gest').value;if(g==='art'){$('fissi').value=4521.36;$('aliac').value=24}else if(g==='com'){$('fissi').value=4611.64;$('aliac').value=24.48}calcola()});
+$('f').addEventListener('input',calcola);
+$('f').addEventListener('submit',e=>e.preventDefault());
+calcola();
+</script>
+</body>
+</html>
