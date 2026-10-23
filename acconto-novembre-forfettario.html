@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acconto 30 novembre 2026 forfettario: quanto versare (codice 1791)</title>
+<meta name="description" content="Calcola in pochi secondi il secondo acconto dell'imposta sostitutiva da versare entro il 30 novembre 2026 nel regime forfettario: rata del 50%, unica soluzione sotto 257,52 €, codice tributo 1791.">
+<style>
+:root{--bg:#F3F6F5;--fg:#1D2B27;--muted:#56665F;--accent:#1F6F5C;--accent-fg:#FFFFFF;--panel:#FFFFFF;--line:#D3DDD9}
+@media (prefers-color-scheme: dark){:root{--bg:#121A18;--fg:#E7EFEC;--muted:#9FB2AB;--accent:#5CC2A5;--accent-fg:#0E1714;--panel:#1A2522;--line:#2C3B37;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px 48px;display:grid;gap:24px}
+h1{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-size:1.15rem;margin:0}
+.lead{color:var(--muted);margin:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;min-width:0}
+.card p{margin:0}
+label{display:grid;gap:4px;font-weight:600}
+input,select{font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.row:last-child{border-bottom:0}
+.row b{white-space:nowrap}
+.cta{background:var(--accent);color:var(--accent-fg);border-radius:12px;padding:20px;display:grid;gap:8px}
+.cta p{margin:0}.cta a{color:var(--accent-fg);font-weight:700}
+.note{font-size:.85rem;color:var(--muted)}
+a{color:var(--accent)}
+nav a{margin-right:16px}
+</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Calcolatore forfettario</a><a href="servizi.html">Servizi</a></nav>
+<header style="display:grid;gap:8px">
+<h1>Acconto del 30 novembre 2026 per i forfettari: quanto versare</h1>
+<p class="lead">Inserisci l'imposta sostitutiva dell'anno scorso (rigo LM42 o equivalente del modello Redditi 2026) e quanto hai già versato a giugno o luglio. Il calcolo usa il metodo storico.</p>
+</header>
+
+<section class="card">
+<label>Imposta sostitutiva 2025 (€)
+<input id="imp" type="number" min="0" step="0.01" inputmode="decimal" placeholder="es. 1800">
+</label>
+<label>Primo acconto già versato a giugno/luglio (€)
+<input id="pag" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0 se non hai versato nulla">
+</label>
+<div>
+<div class="row"><span>Acconto totale 2026</span><b id="r1">–</b></div>
+<div class="row"><span>Da versare entro il 30 novembre 2026</span><b id="r2">–</b></div>
+<div class="row"><span>Codice tributo F24</span><b id="r3">1791</b></div>
+</div>
+<p class="note" id="msg"></p>
+</section>
+
+<section class="card">
+<h2>Le regole usate</h2>
+<p>Per i forfettari l'acconto si divide in due rate uguali del 50% (30 giugno e 30 novembre), non 40% e 60%: lo ha chiarito l'Agenzia delle Entrate con la risoluzione 93/E del 12 novembre 2019.</p>
+<p>Se l'imposta dell'anno precedente non supera 51,65 € l'acconto non è dovuto. Se l'acconto totale è inferiore a 257,52 € si versa tutto in un'unica soluzione entro il 30 novembre.</p>
+<p>Codici tributo: 1790 primo acconto, 1791 secondo acconto o unica soluzione, 1792 saldo. Anno di riferimento nell'F24: 2026.</p>
+<p>Chi prevede un reddito 2026 più basso può usare il metodo previsionale e versare meno, ma se sbaglia paga sanzioni e interessi: in quel caso conviene sentire il commercialista.</p>
+</section>
+
+<section class="cta">
+<p><b>Vuoi sapere anche quanto accantonare per giugno 2027?</b></p>
+<p>Il Kit Forfettario in Excel calcola imposta, contributi INPS, bollo, saldo e acconti mentre registri gli incassi, con scadenzario mese per mese.</p>
+<p><a href="https://payhip.com/b/Wa1UB" rel="noopener">Kit Forfettario 2026 a 9 €</a></p>
+</section>
+
+<p class="note">Stima indicativa, non è consulenza fiscale. Pagina e calcolatore realizzati con l'aiuto di un'intelligenza artificiale e controllati sulle fonti indicate.</p>
+</main>
+<script>
+const eur=v=>v.toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+function calc(){
+  const imp=parseFloat(document.getElementById('imp').value)||0;
+  const pag=parseFloat(document.getElementById('pag').value)||0;
+  const r1=document.getElementById('r1'),r2=document.getElementById('r2'),msg=document.getElementById('msg');
+  if(!imp){r1.textContent=r2.textContent='–';msg.textContent='';return}
+  if(imp<=51.65){r1.textContent=eur(0);r2.textContent=eur(0);msg.textContent='Imposta non superiore a 51,65 €: nessun acconto dovuto.';return}
+  r1.textContent=eur(imp);
+  if(imp<257.52){r2.textContent=eur(Math.max(0,imp-pag));msg.textContent='Acconto inferiore a 257,52 €: si versa tutto entro il 30 novembre, in unica soluzione.';return}
+  const sec=Math.max(0,imp-Math.max(pag,0));
+  r2.textContent=eur(pag?sec:imp/2);
+  msg.textContent=pag?'Seconda rata = acconto totale meno quanto già versato.':'Hai lasciato vuoto il primo acconto: la seconda rata è il 50% dell\'acconto totale.';
+}
+document.getElementById('imp').addEventListener('input',calc);
+document.getElementById('pag').addEventListener('input',calc);
+</script>
+</body>
+</html>
